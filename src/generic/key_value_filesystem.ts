@@ -838,6 +838,11 @@ export class AsyncKeyValueFile extends PreloadFile<AsyncKeyValueFileSystem> impl
 		this.resetDirty();
 	}
 
+	public async utimes(atime: Date, mtime: Date): Promise<void> {
+		this._dirty = true;
+		await this._fs.utimes(this.getPath(), atime, mtime, Cred.Root);
+	}
+
 	public async close(): Promise<void> {
 		this.sync();
 	}
@@ -1081,6 +1086,40 @@ export class AsyncKeyValueFileSystem extends BaseFileSystem {
 			if (inodeChanged) {
 				await tx.put(fileInodeId, fileInode.toBuffer(), true);
 			}
+		} catch (e) {
+			await tx.abort();
+			throw e;
+		}
+		await tx.commit();
+	}
+
+	public async utimes(p: string, atime: Date, mtime: Date, cred: Cred): Promise<void> {
+
+		const tx = this.store.beginTransaction('readwrite');
+		const fileInodeId = await this._findINode(tx, path.dirname(p), path.basename(p))
+		const fileInode = await this.getINode(tx, p, fileInodeId)
+
+		const atimeMs = atime.getTime();
+		const mtimeMs = mtime.getTime();
+
+
+		try {
+			let didChange = false;
+
+			if (atimeMs !== fileInode.atime) {
+				fileInode.atime = atimeMs;
+				didChange = true;
+			}
+			if (mtimeMs !== fileInode.mtime) {
+				fileInode.mtime = mtimeMs;
+				didChange = true;
+			}
+
+			if(didChange)
+			{
+				await tx.put(fileInodeId, fileInode.toBuffer(), true);
+			}
+
 		} catch (e) {
 			await tx.abort();
 			throw e;
