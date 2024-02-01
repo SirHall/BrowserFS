@@ -9,7 +9,6 @@ import { StorageFileSystem as Storage } from './Storage';
 import { OverlayFS } from './OverlayFS';
 import { WorkerFS } from './WorkerFS';
 import { HTTPRequest } from './HTTPRequest';
-import { ZipFS } from './ZipFS';
 import { IsoFS } from './IsoFS';
 import { BackendConstructor } from './backend';
 
@@ -27,7 +26,6 @@ export const backends: { [backend: string]: BackendConstructor } = {
 	WorkerFS,
 	HTTPRequest,
 	XMLHTTPRequest: HTTPRequest,
-	ZipFS,
 };
 
 export {
@@ -44,5 +42,4 @@ export {
 	WorkerFS,
 	HTTPRequest,
 	HTTPRequest as XMLHTTPRequest,
-	ZipFS,
 };

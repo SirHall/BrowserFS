@@ -8,8 +8,9 @@
 		"sourceMap": true,
 		"inlineSources": true,
 		"declaration": true,
-		"emitDeclarationOnly": true,
-		"typeRoots": ["node_modules/@types"]
+		"emitDeclarationOnly": false,
+		"typeRoots": ["node_modules/@types"],
+		"incremental": true
 	},
 	"include": ["src/**/*"]
 }
