@@ -52,7 +52,7 @@ export async function rename(oldPath: string, newPath: string): Promise<void> {
 	const _new = resolveFS(newPath);
 	const paths = { [_old.path]: oldPath, [_new.path]: newPath };
 	try {
-		if (_old === _new) {
+		if (_old.fs === _new.fs) {
 			return _old.fs.rename(_old.path, _new.path, cred);
 		}
 
