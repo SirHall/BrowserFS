@@ -1,8 +1,8 @@
 {
 	"name": "@sirhall/browserfs",
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"description": "A filesystem in your browser!",
-	"main": "dist/browserfs.js",
+	"main": "dist/index.js",
 	"types": "dist",
 	"keywords": [
 		"filesystem",
@@ -32,7 +32,7 @@
 	},
 	"scripts": {
 		"lint": "eslint src test/**/*.test.ts",
-		"build": "rm -rf dist/* && node scripts/build.mjs",
+		"build": "rm -rf dist/* && npx tsc",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest",
 		"prepublishOnly": "npm run build",
 		"build:docs": "typedoc --out docs --name BrowserFS src/index.ts",
